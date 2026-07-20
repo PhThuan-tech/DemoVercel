@@ -1,95 +1,126 @@
-# 🎨 Pulse Studio Demo
+# Pulse Studio Demo
 
-Một trang web tĩnh (static) với tương tác mượt mà, tối ưu hóa cho Vercel deployment.
+Interactive static website demo with a Vercel Function backend. The UI includes a `VI/EN` language toggle, theme switching, animated canvas motion, filters, and a brief-generation form.
 
----
+## English
 
-## 📋 Mô tả dự án
+### Features
 
-Đây là một website demo của **Pulse Studio** với giao diện hiện đại, được xây dựng bằng:
-- **HTML** (30.2%)
-- **CSS** (46.6%)
-- **JavaScript** (23.2%)
+- Responsive landing page built with plain HTML, CSS, and JavaScript.
+- `VI/EN` language toggle with `localStorage` persistence.
+- Light/dark theme toggle.
+- Pointer-aware canvas background.
+- Showcase filters and interactive workflow steps.
+- Brief form that calls `POST /api/brief`.
+- Vercel-ready configuration with basic security headers.
 
----
+### Project Structure
 
-## 🚀 Chạy trên máy cục bộ (Local)
-
-### Cách 1: Mở trực tiếp
-```bash
-Nhấp đúp vào file `index.html` để mở trong trình duyệt
-```
-
-### Cách 2: Dùng Static Server
-Chạy một static server bất kỳ từ thư mục dự án:
-
-**Node.js (http-server):**
-```bash
-npx http-server
-```
-
-**Python 3:**
-```bash
-python -m http.server 8000
-```
-
-**Live Server (VS Code):**
-- Cài extension "Live Server"
-- Chuột phải vào `index.html` → "Open with Live Server"
-
----
-
-## 🌐 Deploy lên Vercel
-
-### Bước 1: Push lên GitHub
-```bash
-git add .
-git commit -m "Initial commit"
-git push origin main
-```
-
-### Bước 2: Import trên Vercel
-1. Đăng nhập tài khoản Vercel: [vercel.com](https://vercel.com)
-2. Nhấn **"Add New..."** → **"Project"**
-3. Chọn repository từ GitHub
-
-### Bước 3: Cấu hình Deploy
-- **Framework Preset:** Chọn `Other` (hoặc `No Framework`)
-- **Build Command:** Để trống (không cần)
-- **Output Directory:** Để trống (không cần)
-
-### Bước 4: Deploy
-- Nhấn **"Deploy"**
-- Chờ quá trình hoàn tất (~1-2 phút)
-
-✅ Xong! Trang web sẽ được deploy tự động sau mỗi `push` lên GitHub.
-
----
-
-## 📁 Cấu trúc tệp
-
-```
+```text
 DemoVercel/
-├── index.html       # Trang chính
-├── style.css        # Styling
-├── script.js        # Interactivity
-└── README.md        # Tài liệu này
+|-- api/
+|   `-- brief.js        # Vercel Function for the form
+|-- index.html          # Main page
+|-- styles.css          # Styling
+|-- script.js           # Frontend interactions and translations
+|-- vercel.json         # Vercel configuration
+`-- README.md           # Documentation
 ```
 
----
+### Run Locally
 
-## 💡 Mẹo hữu ích
+You can open `index.html` directly in a browser to preview the interface. In that mode, the form shows a local sample brief because `/api/brief` only runs on Vercel or through Vercel CLI.
 
-- **Auto-deploy:** Mỗi lần push code lên GitHub, Vercel tự động rebuild và deploy
-- **Custom Domain:** Sau deploy, bạn có thể gắn domain riêng trong cài đặt Vercel
-- **Environment Variables:** Nếu cần, thêm trong **Project Settings** → **Environment Variables**
+If you have Vercel CLI installed:
 
----
+```bash
+vercel dev
+```
 
-## 📧 Liên hệ & Hỗ trợ
+Open the URL shown by the CLI. The form will then call `/api/brief`.
 
-Nếu có bất kỳ câu hỏi nào, vui lòng tạo issue trên repository này.
+### Deploy to Vercel
 
----
+1. Push this folder to GitHub.
+2. Go to `https://vercel.com`.
+3. Choose `Add New...` -> `Project`.
+4. Import the repository.
+5. Set Framework Preset to `Other`.
+6. Leave Build Command empty.
+7. Leave Output Directory empty or set it to `.`.
+8. Click `Deploy`.
 
-**Happy coding! 🎉**
+### Test the API
+
+```bash
+curl -X POST https://your-project.vercel.app/api/brief \
+  -H "Content-Type: application/json" \
+  -d "{\"project\":\"Coffee App\",\"email\":\"you@example.com\",\"style\":\"modern\",\"goal\":\"Collect leads for a launch\",\"language\":\"en\"}"
+```
+
+The response includes `referenceId`, `summary`, `nextSteps`, `designDirection`, and contact metadata.
+
+## Tiếng Việt
+
+### Tính năng
+
+- Landing page responsive bằng HTML, CSS và JavaScript thuần.
+- Nút đổi ngôn ngữ `VI/EN`, có lưu lựa chọn bằng `localStorage`.
+- Nút đổi giao diện sáng/tối.
+- Canvas background phản hồi theo con trỏ.
+- Bộ lọc showcase và workflow tương tác.
+- Form tạo brief gọi `POST /api/brief`.
+- Cấu hình sẵn cho Vercel kèm security headers cơ bản.
+
+### Cấu trúc dự án
+
+```text
+DemoVercel/
+|-- api/
+|   `-- brief.js        # Vercel Function xử lý form
+|-- index.html          # Trang chính
+|-- styles.css          # Giao diện
+|-- script.js           # Tương tác frontend và bản dịch
+|-- vercel.json         # Cấu hình Vercel
+`-- README.md           # Tài liệu
+```
+
+### Chạy local
+
+Bạn có thể mở trực tiếp `index.html` trong trình duyệt để xem giao diện. Khi mở theo cách này, form sẽ hiển thị brief mẫu vì `/api/brief` chỉ chạy trên Vercel hoặc qua Vercel CLI.
+
+Nếu đã cài Vercel CLI:
+
+```bash
+vercel dev
+```
+
+Sau đó mở URL mà CLI hiển thị. Form sẽ gọi được `/api/brief`.
+
+### Deploy lên Vercel
+
+1. Push thư mục này lên GitHub.
+2. Vào `https://vercel.com`.
+3. Chọn `Add New...` -> `Project`.
+4. Import repository.
+5. Framework Preset chọn `Other`.
+6. Build Command để trống.
+7. Output Directory để trống hoặc đặt là `.`.
+8. Bấm `Deploy`.
+
+### Test API
+
+```bash
+curl -X POST https://your-project.vercel.app/api/brief \
+  -H "Content-Type: application/json" \
+  -d "{\"project\":\"Coffee App\",\"email\":\"you@example.com\",\"style\":\"modern\",\"goal\":\"Thu lead cho san pham moi\",\"language\":\"vi\"}"
+```
+
+Kết quả trả về gồm `referenceId`, `summary`, `nextSteps`, `designDirection` và thông tin liên hệ.
+
+## Next Up / Nâng cấp tiếp
+
+- Send the brief to your email with Resend, SendGrid, or Gmail API.
+- Save leads to Google Sheets, Notion, Airtable, or a database.
+- Enable Vercel Web Analytics and Speed Insights.
+- Migrate to Next.js if you need routing, SEO, and a larger component system.

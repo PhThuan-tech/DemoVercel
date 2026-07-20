@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
-      content="Demo website tương tác sẵn sàng deploy lên Vercel."
+      content="Interactive demo website ready to deploy on Vercel."
+      data-i18n-attr="content:meta.description"
     />
     <title>Pulse Studio Demo</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -24,34 +25,54 @@
         <span class="brand-mark"></span>
         Pulse Studio
       </a>
-      <nav class="nav-links" aria-label="Điều hướng chính">
-        <a href="#showcase">Showcase</a>
-        <a href="#workflow">Workflow</a>
-        <a href="#contact">Liên hệ</a>
+      <nav class="nav-links" aria-label="Main navigation" data-i18n-attr="aria-label:nav.aria">
+        <a href="#showcase" data-i18n="nav.showcase">Showcase</a>
+        <a href="#workflow" data-i18n="nav.workflow">Workflow</a>
+        <a href="#contact" data-i18n="nav.contact">Contact</a>
       </nav>
-      <button class="theme-toggle" type="button" aria-label="Đổi giao diện">
-        <span class="theme-icon">◐</span>
-      </button>
+      <div class="toolbar-actions">
+        <button class="language-toggle" type="button" aria-label="Switch language">
+          EN
+        </button>
+        <button
+          class="theme-toggle"
+          type="button"
+          aria-label="Toggle theme"
+          data-i18n-attr="aria-label:theme.aria"
+        >
+          <span class="theme-icon">◐</span>
+        </button>
+      </div>
     </header>
 
     <main id="home">
       <section class="hero">
         <div class="hero-copy">
-          <p class="eyebrow">Interactive Vercel Demo</p>
-          <h1>Trải nghiệm web mượt, sáng, và có cảm giác sống.</h1>
-          <p class="hero-text">
+          <p class="eyebrow" data-i18n="hero.eyebrow">Interactive Vercel Demo</p>
+          <h1 data-i18n="hero.title">
+            Trải nghiệm web mượt, sáng, và có cảm giác sống.
+          </h1>
+          <p class="hero-text" data-i18n="hero.text">
             Một demo landing page gọn nhẹ với chuyển động canvas, theme toggle,
             bộ lọc nội dung, chỉ số động và form tương tác.
           </p>
           <div class="hero-actions">
-            <a class="primary-action" href="#showcase">Xem demo</a>
-            <a class="secondary-action" href="#contact">Bắt đầu</a>
+            <a class="primary-action" href="#showcase" data-i18n="hero.primary">
+              Xem demo
+            </a>
+            <a class="secondary-action" href="#contact" data-i18n="hero.secondary">
+              Bắt đầu
+            </a>
           </div>
         </div>
 
-        <div class="orbit-panel" aria-label="Bảng demo tương tác">
+        <div
+          class="orbit-panel"
+          aria-label="Interactive demo panel"
+          data-i18n-attr="aria-label:orbit.aria"
+        >
           <div class="status-row">
-            <span>Live Preview</span>
+            <span data-i18n="orbit.label">Live Preview</span>
             <strong id="live-score">96%</strong>
           </div>
           <div class="orbital-stage">
@@ -68,33 +89,42 @@
               <span>Pulse</span>
             </div>
           </div>
-          <p id="metric-note">Nhấn vào các điểm để xem thay đổi chỉ số.</p>
+          <p id="metric-note" data-i18n="orbit.note">
+            Nhấn vào các điểm để xem thay đổi chỉ số.
+          </p>
         </div>
       </section>
 
-      <section class="metrics" aria-label="Chỉ số demo">
+      <section class="metrics" aria-label="Demo metrics" data-i18n-attr="aria-label:metrics.aria">
         <article>
           <span class="metric-value" data-target="42">0</span>
-          <p>components</p>
+          <p data-i18n="metrics.components">components</p>
         </article>
         <article>
           <span class="metric-value" data-target="98">0</span>
-          <p>lighthouse</p>
+          <p data-i18n="metrics.lighthouse">lighthouse</p>
         </article>
         <article>
           <span class="metric-value" data-target="7">0</span>
-          <p>sections</p>
+          <p data-i18n="metrics.sections">sections</p>
         </article>
       </section>
 
       <section class="showcase" id="showcase">
         <div class="section-heading">
           <p class="eyebrow">Showcase</p>
-          <h2>Chọn mood cho giao diện</h2>
+          <h2 data-i18n="showcase.title">Chọn mood cho giao diện</h2>
         </div>
 
-        <div class="filter-tabs" role="tablist" aria-label="Bộ lọc showcase">
-          <button class="tab active" type="button" data-filter="all">Tất cả</button>
+        <div
+          class="filter-tabs"
+          role="tablist"
+          aria-label="Showcase filters"
+          data-i18n-attr="aria-label:showcase.filters"
+        >
+          <button class="tab active" type="button" data-filter="all" data-i18n="tabs.all">
+            Tất cả
+          </button>
           <button class="tab" type="button" data-filter="motion">Motion</button>
           <button class="tab" type="button" data-filter="system">System</button>
           <button class="tab" type="button" data-filter="brand">Brand</button>
@@ -104,17 +134,23 @@
           <article class="project-card" data-category="motion">
             <div class="project-visual visual-one"></div>
             <h3>Motion Hero</h3>
-            <p>Canvas nền phản hồi theo con trỏ, tạo cảm giác premium mà vẫn nhẹ.</p>
+            <p data-i18n="cards.motion">
+              Canvas nền phản hồi theo con trỏ, tạo cảm giác premium mà vẫn nhẹ.
+            </p>
           </article>
           <article class="project-card" data-category="system">
             <div class="project-visual visual-two"></div>
             <h3>Smart Dashboard</h3>
-            <p>Thẻ chỉ số rõ ràng, bố cục responsive và trạng thái dễ quét.</p>
+            <p data-i18n="cards.system">
+              Thẻ chỉ số rõ ràng, bố cục responsive và trạng thái dễ quét.
+            </p>
           </article>
           <article class="project-card" data-category="brand">
             <div class="project-visual visual-three"></div>
             <h3>Brand Moment</h3>
-            <p>Màu sắc có tương phản, CTA nổi bật, phù hợp cho demo sản phẩm.</p>
+            <p data-i18n="cards.brand">
+              Màu sắc có tương phản, CTA nổi bật, phù hợp cho demo sản phẩm.
+            </p>
           </article>
         </div>
       </section>
@@ -122,23 +158,23 @@
       <section class="workflow" id="workflow">
         <div class="section-heading">
           <p class="eyebrow">Workflow</p>
-          <h2>Từ ý tưởng đến deploy</h2>
+          <h2 data-i18n="workflow.title">Từ ý tưởng đến deploy</h2>
         </div>
         <div class="timeline">
           <button class="step active" type="button" data-step="1">
             <span>01</span>
-            Thiết kế nhanh
+            <span data-i18n="workflow.step1">Thiết kế nhanh</span>
           </button>
           <button class="step" type="button" data-step="2">
             <span>02</span>
-            Tối ưu tương tác
+            <span data-i18n="workflow.step2">Tối ưu tương tác</span>
           </button>
           <button class="step" type="button" data-step="3">
             <span>03</span>
-            Deploy Vercel
+            <span data-i18n="workflow.step3">Deploy Vercel</span>
           </button>
         </div>
-        <p class="step-detail" id="step-detail">
+        <p class="step-detail" id="step-detail" data-i18n="workflow.detail1">
           Bắt đầu với một layout rõ ràng, có điểm nhấn thị giác ngay ở màn hình đầu.
         </p>
       </section>
@@ -146,23 +182,47 @@
       <section class="contact" id="contact">
         <div>
           <p class="eyebrow">Contact</p>
-          <h2>Tùy biến demo này cho dự án của bạn</h2>
+          <h2 data-i18n="contact.title">Tùy biến demo này cho dự án của bạn</h2>
         </div>
         <form class="demo-form">
           <label>
-            Tên dự án
-            <input type="text" name="project" placeholder="Ví dụ: Coffee App" />
+            <span data-i18n="form.project">Tên dự án</span>
+            <input
+              type="text"
+              name="project"
+              placeholder="Ví dụ: Coffee App"
+              maxlength="80"
+              data-i18n-attr="placeholder:form.projectPlaceholder"
+            />
           </label>
           <label>
-            Phong cách
+            <span data-i18n="form.email">Email nhận brief</span>
+            <input type="email" name="email" placeholder="you@example.com" maxlength="120" />
+          </label>
+          <label>
+            <span data-i18n="form.style">Phong cách</span>
             <select name="style">
-              <option>Hiện đại</option>
-              <option>Tối giản</option>
-              <option>Năng động</option>
+              <option value="modern" data-i18n="form.styleModern">Hiện đại</option>
+              <option value="minimal" data-i18n="form.styleMinimal">Tối giản</option>
+              <option value="dynamic" data-i18n="form.styleDynamic">Năng động</option>
             </select>
           </label>
-          <button type="submit">Tạo brief demo</button>
+          <label>
+            <span data-i18n="form.goal">Mục tiêu</span>
+            <textarea
+              name="goal"
+              placeholder="Ví dụ: Giới thiệu sản phẩm mới, thu lead, chạy demo"
+              maxlength="500"
+              data-i18n-attr="placeholder:form.goalPlaceholder"
+            ></textarea>
+          </label>
+          <button type="submit" data-i18n="form.submit">Tạo brief demo</button>
           <p class="form-result" aria-live="polite"></p>
+          <div class="brief-preview" hidden>
+            <span class="brief-id"></span>
+            <strong class="brief-summary"></strong>
+            <ul class="brief-steps"></ul>
+          </div>
         </form>
       </section>
     </main>

@@ -55,7 +55,8 @@ a {
 
 button,
 input,
-select {
+select,
+textarea {
   font: inherit;
 }
 
@@ -90,7 +91,8 @@ select {
 .hero-actions,
 .status-row,
 .filter-tabs,
-.timeline {
+.timeline,
+.toolbar-actions {
   display: flex;
   align-items: center;
 }
@@ -118,16 +120,37 @@ select {
   color: var(--text);
 }
 
-.theme-toggle {
+.toolbar-actions {
+  gap: 8px;
+}
+
+.theme-toggle,
+.language-toggle {
   display: grid;
   place-items: center;
-  width: 40px;
   height: 40px;
   border: 1px solid var(--line);
-  border-radius: 50%;
   background: var(--surface-strong);
   color: var(--text);
   cursor: pointer;
+}
+
+.theme-toggle {
+  width: 40px;
+  border-radius: 50%;
+}
+
+.language-toggle {
+  min-width: 48px;
+  padding: 0 12px;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 900;
+}
+
+button:disabled {
+  cursor: wait;
+  opacity: 0.72;
 }
 
 main {
@@ -511,19 +534,31 @@ h2 {
 }
 
 .demo-form input,
-.demo-form select {
+.demo-form select,
+.demo-form textarea {
   width: 100%;
-  min-height: 48px;
   border: 1px solid var(--line);
   border-radius: 8px;
   background: var(--surface-strong);
   color: var(--text);
-  padding: 0 12px;
   outline: none;
 }
 
+.demo-form input,
+.demo-form select {
+  min-height: 48px;
+  padding: 0 12px;
+}
+
+.demo-form textarea {
+  min-height: 104px;
+  padding: 12px;
+  resize: vertical;
+}
+
 .demo-form input:focus,
-.demo-form select:focus {
+.demo-form select:focus,
+.demo-form textarea:focus {
   border-color: var(--accent);
   box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 18%, transparent);
 }
@@ -537,6 +572,39 @@ h2 {
   margin: 0;
   color: var(--accent-strong);
   font-weight: 800;
+}
+
+.brief-preview {
+  display: grid;
+  gap: 10px;
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface-strong);
+}
+
+.brief-preview[hidden] {
+  display: none;
+}
+
+.brief-id {
+  color: var(--muted);
+  font-size: 0.82rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.brief-summary {
+  line-height: 1.45;
+}
+
+.brief-steps {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding-left: 18px;
+  color: var(--muted);
+  line-height: 1.5;
 }
 
 @keyframes pulse {
