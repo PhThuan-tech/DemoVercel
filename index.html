@@ -1,0 +1,172 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Demo website tương tác sẵn sàng deploy lên Vercel."
+    />
+    <title>Pulse Studio Demo</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <canvas id="ambient-canvas" aria-hidden="true"></canvas>
+
+    <header class="topbar">
+      <a class="brand" href="#home" aria-label="Pulse Studio">
+        <span class="brand-mark"></span>
+        Pulse Studio
+      </a>
+      <nav class="nav-links" aria-label="Điều hướng chính">
+        <a href="#showcase">Showcase</a>
+        <a href="#workflow">Workflow</a>
+        <a href="#contact">Liên hệ</a>
+      </nav>
+      <button class="theme-toggle" type="button" aria-label="Đổi giao diện">
+        <span class="theme-icon">◐</span>
+      </button>
+    </header>
+
+    <main id="home">
+      <section class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">Interactive Vercel Demo</p>
+          <h1>Trải nghiệm web mượt, sáng, và có cảm giác sống.</h1>
+          <p class="hero-text">
+            Một demo landing page gọn nhẹ với chuyển động canvas, theme toggle,
+            bộ lọc nội dung, chỉ số động và form tương tác.
+          </p>
+          <div class="hero-actions">
+            <a class="primary-action" href="#showcase">Xem demo</a>
+            <a class="secondary-action" href="#contact">Bắt đầu</a>
+          </div>
+        </div>
+
+        <div class="orbit-panel" aria-label="Bảng demo tương tác">
+          <div class="status-row">
+            <span>Live Preview</span>
+            <strong id="live-score">96%</strong>
+          </div>
+          <div class="orbital-stage">
+            <button class="orbit-dot dot-a" type="button" data-metric="Design">
+              Design
+            </button>
+            <button class="orbit-dot dot-b" type="button" data-metric="Speed">
+              Speed
+            </button>
+            <button class="orbit-dot dot-c" type="button" data-metric="UX">
+              UX
+            </button>
+            <div class="core-pulse">
+              <span>Pulse</span>
+            </div>
+          </div>
+          <p id="metric-note">Nhấn vào các điểm để xem thay đổi chỉ số.</p>
+        </div>
+      </section>
+
+      <section class="metrics" aria-label="Chỉ số demo">
+        <article>
+          <span class="metric-value" data-target="42">0</span>
+          <p>components</p>
+        </article>
+        <article>
+          <span class="metric-value" data-target="98">0</span>
+          <p>lighthouse</p>
+        </article>
+        <article>
+          <span class="metric-value" data-target="7">0</span>
+          <p>sections</p>
+        </article>
+      </section>
+
+      <section class="showcase" id="showcase">
+        <div class="section-heading">
+          <p class="eyebrow">Showcase</p>
+          <h2>Chọn mood cho giao diện</h2>
+        </div>
+
+        <div class="filter-tabs" role="tablist" aria-label="Bộ lọc showcase">
+          <button class="tab active" type="button" data-filter="all">Tất cả</button>
+          <button class="tab" type="button" data-filter="motion">Motion</button>
+          <button class="tab" type="button" data-filter="system">System</button>
+          <button class="tab" type="button" data-filter="brand">Brand</button>
+        </div>
+
+        <div class="project-grid">
+          <article class="project-card" data-category="motion">
+            <div class="project-visual visual-one"></div>
+            <h3>Motion Hero</h3>
+            <p>Canvas nền phản hồi theo con trỏ, tạo cảm giác premium mà vẫn nhẹ.</p>
+          </article>
+          <article class="project-card" data-category="system">
+            <div class="project-visual visual-two"></div>
+            <h3>Smart Dashboard</h3>
+            <p>Thẻ chỉ số rõ ràng, bố cục responsive và trạng thái dễ quét.</p>
+          </article>
+          <article class="project-card" data-category="brand">
+            <div class="project-visual visual-three"></div>
+            <h3>Brand Moment</h3>
+            <p>Màu sắc có tương phản, CTA nổi bật, phù hợp cho demo sản phẩm.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="workflow" id="workflow">
+        <div class="section-heading">
+          <p class="eyebrow">Workflow</p>
+          <h2>Từ ý tưởng đến deploy</h2>
+        </div>
+        <div class="timeline">
+          <button class="step active" type="button" data-step="1">
+            <span>01</span>
+            Thiết kế nhanh
+          </button>
+          <button class="step" type="button" data-step="2">
+            <span>02</span>
+            Tối ưu tương tác
+          </button>
+          <button class="step" type="button" data-step="3">
+            <span>03</span>
+            Deploy Vercel
+          </button>
+        </div>
+        <p class="step-detail" id="step-detail">
+          Bắt đầu với một layout rõ ràng, có điểm nhấn thị giác ngay ở màn hình đầu.
+        </p>
+      </section>
+
+      <section class="contact" id="contact">
+        <div>
+          <p class="eyebrow">Contact</p>
+          <h2>Tùy biến demo này cho dự án của bạn</h2>
+        </div>
+        <form class="demo-form">
+          <label>
+            Tên dự án
+            <input type="text" name="project" placeholder="Ví dụ: Coffee App" />
+          </label>
+          <label>
+            Phong cách
+            <select name="style">
+              <option>Hiện đại</option>
+              <option>Tối giản</option>
+              <option>Năng động</option>
+            </select>
+          </label>
+          <button type="submit">Tạo brief demo</button>
+          <p class="form-result" aria-live="polite"></p>
+        </form>
+      </section>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>
