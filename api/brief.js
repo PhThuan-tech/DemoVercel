@@ -4,6 +4,8 @@ const content = {
     tooLong: "Thong tin qua dai, vui long rut gon brief.",
     badEmail: "Email chua dung dinh dang.",
     badPayload: "Khong doc duoc du lieu gui len API.",
+    dbDisabled: "Chua cau hinh Supabase env vars.",
+    dbError: "Khong luu duoc vao Supabase.",
     noGoal: "Chua co muc tieu cu the",
     noContact: "Chua cung cap email",
     summary: "{project} nen tap trung vao {priority}.",
@@ -18,6 +20,8 @@ const content = {
     tooLong: "The brief is too long. Please shorten it.",
     badEmail: "The email address is not valid.",
     badPayload: "The API could not read the submitted data.",
+    dbDisabled: "Supabase environment variables are not configured.",
+    dbError: "Could not save to Supabase.",
     noGoal: "No specific goal provided",
     noContact: "No email provided",
     summary: "{project} should focus on {priority}.",
@@ -86,6 +90,45 @@ function fillTemplate(template, values) {
   );
 }
 
+async function saveBriefToSupabase(record) {
+  const supabaseUrl = process.env.SUPABASE_URL;
+  const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+
+  if (!supabaseUrl || !serviceRoleKey) {
+    return {
+      saved: false,
+      reason: "missing_env",
+    };
+  }
+
+  const endpoint = `${supabaseUrl.replace(/\/$/, "")}/rest/v1/briefs`;
+  const response = await fetch(endpoint, {
+    method: "POST",
+    headers: {
+      apikey: serviceRoleKey,
+      Authorization: `Bearer ${serviceRoleKey}`,
+      "Content-Type": "application/json",
+      Prefer: "return=representation",
+    },
+    body: JSON.stringify(record),
+  });
+
+  const payload = await response.json().catch(() => null);
+
+  if (!response.ok) {
+    return {
+      saved: false,
+      reason: "supabase_error",
+      error: payload?.message || response.statusText,
+    };
+  }
+
+  return {
+    saved: true,
+    row: Array.isArray(payload) ? payload[0] : payload,
+  };
+}
+
 module.exports = async function handler(request, response) {
   response.setHeader("Content-Type", "application/json; charset=utf-8");
 
@@ -115,15 +158,32 @@ module.exports = async function handler(request, response) {
 
     const selectedStyle = styleNotes[style];
     const referenceId = `PS-${Date.now().toString(36).toUpperCase()}`;
+    const summary = fillTemplate(dictionary.summary, {
+      project: safeProject,
+      priority: selectedStyle.priority[language],
+    });
+    const createdAt = new Date().toISOString();
+    const storage = await saveBriefToSupabase({
+      reference_id: referenceId,
+      project: safeProject,
+      email: email || null,
+      style,
+      goal: goal || null,
+      language,
+      summary,
+      next_steps: dictionary.steps,
+      design_direction: {
+        tone: selectedStyle.tone,
+        palette: selectedStyle.palette,
+      },
+      created_at: createdAt,
+    });
 
     return response.status(200).json({
       referenceId,
       project: safeProject,
       language,
-      summary: fillTemplate(dictionary.summary, {
-        project: safeProject,
-        priority: selectedStyle.priority[language],
-      }),
+      summary,
       nextSteps: dictionary.steps,
       designDirection: {
         tone: selectedStyle.tone,
@@ -131,7 +191,18 @@ module.exports = async function handler(request, response) {
       },
       receivedGoal: goal || dictionary.noGoal,
       contact: email || dictionary.noContact,
-      createdAt: new Date().toISOString(),
+      storage: {
+        saved: storage.saved,
+        reason:
+          storage.reason === "missing_env"
+            ? dictionary.dbDisabled
+            : storage.reason === "supabase_error"
+              ? dictionary.dbError
+              : null,
+        id: storage.row?.id || null,
+        error: storage.error || null,
+      },
+      createdAt,
     });
   } catch (error) {
     return response.status(400).json({

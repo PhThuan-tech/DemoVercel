@@ -594,6 +594,16 @@ h2 {
   text-transform: uppercase;
 }
 
+.brief-storage {
+  width: fit-content;
+  padding: 6px 10px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--accent-strong);
+  font-size: 0.82rem;
+  font-weight: 800;
+}
+
 .brief-summary {
   line-height: 1.45;
 }
