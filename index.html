@@ -12,7 +12,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
       rel="stylesheet"
     />
     <link rel="stylesheet" href="styles.css" />
@@ -28,46 +28,49 @@
       <nav class="nav-links" aria-label="Main navigation" data-i18n-attr="aria-label:nav.aria">
         <a href="#showcase" data-i18n="nav.showcase">Showcase</a>
         <a href="#workflow" data-i18n="nav.workflow">Workflow</a>
-        <a href="#contact" data-i18n="nav.contact">Contact</a>
+        <a href="#contact" data-i18n="nav.contact">Liên hệ</a>
       </nav>
       <div class="toolbar-actions">
-        <button class="language-toggle" type="button" aria-label="Switch language">
-          EN
-        </button>
+        <button class="language-toggle" type="button" aria-label="Switch language">EN</button>
         <button
           class="theme-toggle"
           type="button"
           aria-label="Toggle theme"
           data-i18n-attr="aria-label:theme.aria"
         >
-          <span class="theme-icon">◐</span>
+          <span class="theme-icon">●</span>
         </button>
       </div>
     </header>
 
     <main id="home">
-      <section class="hero">
+      <section class="hero reveal">
         <div class="hero-copy">
           <p class="eyebrow" data-i18n="hero.eyebrow">Interactive Vercel Demo</p>
           <h1 data-i18n="hero.title">
-            Trải nghiệm web mượt, sáng, và có cảm giác sống.
+            Giao diện học-vui, nảy nhẹ, mượt như một trò chơi nhỏ.
           </h1>
           <p class="hero-text" data-i18n="hero.text">
-            Một demo landing page gọn nhẹ với chuyển động canvas, theme toggle,
+            Một demo landing page gọn nhẹ với chuyển động canvas, mascot vui, theme toggle,
             bộ lọc nội dung, chỉ số động và form tương tác.
           </p>
+          <div class="motion-badges" aria-label="Motion ingredients">
+            <span data-i18n="hero.badge1">Spring motion</span>
+            <span data-i18n="hero.badge2">Scroll reveal</span>
+            <span data-i18n="hero.badge3">Playful states</span>
+          </div>
           <div class="hero-actions">
             <a class="primary-action" href="#showcase" data-i18n="hero.primary">
               Xem demo
             </a>
             <a class="secondary-action" href="#contact" data-i18n="hero.secondary">
-              Bắt đầu
+              Tạo brief
             </a>
           </div>
         </div>
 
         <div
-          class="orbit-panel"
+          class="orbit-panel reveal"
           aria-label="Interactive demo panel"
           data-i18n-attr="aria-label:orbit.aria"
         >
@@ -85,17 +88,21 @@
             <button class="orbit-dot dot-c" type="button" data-metric="UX">
               UX
             </button>
-            <div class="core-pulse">
-              <span>Pulse</span>
+            <div class="core-pulse" aria-hidden="true">
+              <span class="face-eye eye-left"></span>
+              <span class="face-eye eye-right"></span>
+              <span class="face-smile"></span>
+              <span class="face-blush blush-left"></span>
+              <span class="face-blush blush-right"></span>
             </div>
           </div>
           <p id="metric-note" data-i18n="orbit.note">
-            Nhấn vào các điểm để xem thay đổi chỉ số.
+            Nhấn vào các điểm để xem chỉ số đổi trạng thái.
           </p>
         </div>
       </section>
 
-      <section class="metrics" aria-label="Demo metrics" data-i18n-attr="aria-label:metrics.aria">
+      <section class="metrics reveal" aria-label="Demo metrics" data-i18n-attr="aria-label:metrics.aria">
         <article>
           <span class="metric-value" data-target="42">0</span>
           <p data-i18n="metrics.components">components</p>
@@ -110,10 +117,10 @@
         </article>
       </section>
 
-      <section class="showcase" id="showcase">
+      <section class="showcase reveal" id="showcase">
         <div class="section-heading">
           <p class="eyebrow">Showcase</p>
-          <h2 data-i18n="showcase.title">Chọn mood cho giao diện</h2>
+          <h2 data-i18n="showcase.title">Chọn mood hoạt ảnh cho giao diện</h2>
         </div>
 
         <div
@@ -131,31 +138,43 @@
         </div>
 
         <div class="project-grid">
-          <article class="project-card" data-category="motion">
-            <div class="project-visual visual-one"></div>
+          <article class="project-card reveal" data-category="motion">
+            <div class="project-visual visual-one">
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
             <h3>Motion Hero</h3>
             <p data-i18n="cards.motion">
-              Canvas nền phản hồi theo con trỏ, tạo cảm giác premium mà vẫn nhẹ.
+              Canvas nền phản hồi theo con trỏ, thêm motion nảy nhẹ và chuyển cảnh êm.
             </p>
           </article>
-          <article class="project-card" data-category="system">
-            <div class="project-visual visual-two"></div>
+          <article class="project-card reveal" data-category="system">
+            <div class="project-visual visual-two">
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
             <h3>Smart Dashboard</h3>
             <p data-i18n="cards.system">
               Thẻ chỉ số rõ ràng, bố cục responsive và trạng thái dễ quét.
             </p>
           </article>
-          <article class="project-card" data-category="brand">
-            <div class="project-visual visual-three"></div>
+          <article class="project-card reveal" data-category="brand">
+            <div class="project-visual visual-three">
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
             <h3>Brand Moment</h3>
             <p data-i18n="cards.brand">
-              Màu sắc có tương phản, CTA nổi bật, phù hợp cho demo sản phẩm.
+              Màu sắc tươi, CTA nổi bật, phù hợp cho demo sản phẩm giàu cảm xúc.
             </p>
           </article>
         </div>
       </section>
 
-      <section class="workflow" id="workflow">
+      <section class="workflow reveal" id="workflow">
         <div class="section-heading">
           <p class="eyebrow">Workflow</p>
           <h2 data-i18n="workflow.title">Từ ý tưởng đến deploy</h2>
@@ -175,11 +194,11 @@
           </button>
         </div>
         <p class="step-detail" id="step-detail" data-i18n="workflow.detail1">
-          Bắt đầu với một layout rõ ràng, có điểm nhấn thị giác ngay ở màn hình đầu.
+          Bắt đầu với layout rõ ràng, có điểm nhấn thị giác ngay ở màn hình đầu.
         </p>
       </section>
 
-      <section class="contact" id="contact">
+      <section class="contact reveal" id="contact">
         <div>
           <p class="eyebrow">Contact</p>
           <h2 data-i18n="contact.title">Tùy biến demo này cho dự án của bạn</h2>
