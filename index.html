@@ -198,6 +198,50 @@
         </p>
       </section>
 
+      <section class="number-game reveal" id="number-game">
+        <div class="game-copy">
+          <p class="eyebrow">Mini Game</p>
+          <h2 data-i18n="game.title">Guess Quest</h2>
+          <p data-i18n="game.text">
+            Đoán số bí mật trong 3 lượt. Mỗi lần thử sẽ thu hẹp phạm vi và mở thêm gợi ý.
+          </p>
+        </div>
+
+        <div class="game-panel" aria-label="Number guessing mini game" data-i18n-attr="aria-label:game.aria">
+          <div class="game-status">
+            <span class="game-pill" data-i18n="game.rangeLabel">Khoảng</span>
+            <strong id="game-range">1 - 100</strong>
+            <div class="game-lives" aria-label="Attempts left">
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+          </div>
+
+          <div class="range-track" aria-hidden="true">
+            <span class="range-fill"></span>
+          </div>
+
+          <form class="guess-form">
+            <label>
+              <span data-i18n="game.inputLabel">Nhập số bạn đoán</span>
+              <input type="number" min="1" max="100" inputmode="numeric" name="guess" placeholder="42" />
+            </label>
+            <button type="submit" data-i18n="game.submit">Đoán</button>
+          </form>
+
+          <p class="game-message" aria-live="polite" data-i18n="game.start">
+            Số nằm trong khoảng 1-100. Gợi ý đầu tiên: hãy nhìn tính chẵn/lẻ.
+          </p>
+          <ol class="hint-log"></ol>
+
+          <div class="game-actions">
+            <button class="reset-game" type="button" data-i18n="game.reset">Chơi lại</button>
+            <span class="game-score" id="game-score">0 pts</span>
+          </div>
+        </div>
+      </section>
+
       <section class="contact reveal" id="contact">
         <div>
           <p class="eyebrow">Contact</p>

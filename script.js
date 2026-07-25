@@ -7,6 +7,17 @@ let particles = [];
 let animationFrame = null;
 let currentLanguage = localStorage.getItem("pulse-language") || "vi";
 let selectedMetric = "";
+const gameState = {
+  secret: 0,
+  min: 1,
+  max: 100,
+  attempts: 0,
+  maxAttempts: 3,
+  score: 0,
+  isOver: false,
+  lastMessageKey: "game.start",
+  lastMessageValues: {},
+};
 
 const translations = {
   vi: {
@@ -49,6 +60,27 @@ const translations = {
       "Thêm tương tác nhỏ nhưng có nhịp: hover, lọc nội dung, theme toggle và chỉ số động.",
     "workflow.detail3":
       "Giữ cấu trúc tĩnh, không cần build phức tạp, sẵn sàng đẩy lên Vercel.",
+    "game.aria": "Mini game đoán số",
+    "game.title": "Guess Quest",
+    "game.text":
+      "Đoán số bí mật trong 3 lượt. Mỗi lần thử sẽ thu hẹp phạm vi và mở thêm gợi ý.",
+    "game.rangeLabel": "Khoảng",
+    "game.inputLabel": "Nhập số bạn đoán",
+    "game.submit": "Đoán",
+    "game.reset": "Chơi lại",
+    "game.start": "Số nằm trong khoảng 1-100. Gợi ý đầu tiên: {hint}.",
+    "game.invalid": "Nhập một số trong khoảng {min}-{max} nhé.",
+    "game.correct": "Đúng rồi. Số bí mật là {number}. Bạn đạt {score} điểm.",
+    "game.tooLow": "Lượt {attempt}: {guess} thấp quá. Khoảng mới là {min}-{max}. {hint}",
+    "game.tooHigh": "Lượt {attempt}: {guess} cao quá. Khoảng mới là {min}-{max}. {hint}",
+    "game.lost": "Hết lượt rồi. Số bí mật là {number}. Bấm chơi lại để thử tiếp.",
+    "game.even": "Số này là số chẵn.",
+    "game.odd": "Số này là số lẻ.",
+    "game.divisible": "Số này chia hết cho {value}.",
+    "game.notDivisible": "Số này không chia hết cho {value}.",
+    "game.digitSum": "Tổng các chữ số là {sum}.",
+    "game.near": "Bạn đang khá gần.",
+    "game.far": "Còn hơi xa, dùng khoảng mới để ép đáp án.",
     "contact.title": "Tùy biến demo này cho dự án của bạn",
     "form.project": "Tên dự án",
     "form.projectPlaceholder": "Ví dụ: Coffee App",
@@ -115,6 +147,27 @@ const translations = {
       "Add small interactions with rhythm: hover states, filters, theme switching, and animated metrics.",
     "workflow.detail3":
       "Keep the static structure simple and ready to ship on Vercel.",
+    "game.aria": "Number guessing mini game",
+    "game.title": "Guess Quest",
+    "game.text":
+      "Guess the secret number in 3 tries. Each guess narrows the range and unlocks a new clue.",
+    "game.rangeLabel": "Range",
+    "game.inputLabel": "Enter your guess",
+    "game.submit": "Guess",
+    "game.reset": "Play again",
+    "game.start": "The number is between 1-100. First clue: {hint}.",
+    "game.invalid": "Enter a number from {min}-{max}.",
+    "game.correct": "Correct. The secret number was {number}. You scored {score} points.",
+    "game.tooLow": "Try {attempt}: {guess} was too low. The new range is {min}-{max}. {hint}",
+    "game.tooHigh": "Try {attempt}: {guess} was too high. The new range is {min}-{max}. {hint}",
+    "game.lost": "No tries left. The secret number was {number}. Play again for another run.",
+    "game.even": "This number is even.",
+    "game.odd": "This number is odd.",
+    "game.divisible": "This number is divisible by {value}.",
+    "game.notDivisible": "This number is not divisible by {value}.",
+    "game.digitSum": "The digit sum is {sum}.",
+    "game.near": "You are pretty close.",
+    "game.far": "Still a bit far, use the new range to squeeze the answer.",
     "contact.title": "Customize this demo for your project",
     "form.project": "Project name",
     "form.projectPlaceholder": "Example: Coffee App",
@@ -253,6 +306,8 @@ function applyLanguage(language) {
       metric: selectedMetric,
     });
   }
+
+  updateGameText();
 }
 
 function animateMetric(metric) {
@@ -354,6 +409,161 @@ document.querySelectorAll(".step").forEach((step) => {
   });
 });
 
+function digitSum(number) {
+  return String(number)
+    .split("")
+    .reduce((sum, digit) => sum + Number(digit), 0);
+}
+
+function parityHint() {
+  return t(gameState.secret % 2 === 0 ? "game.even" : "game.odd");
+}
+
+function nextNumberHint(guess) {
+  const distance = Math.abs(gameState.secret - guess);
+  if (gameState.attempts === 1) {
+    const divisor = [3, 4, 5].find((value) => gameState.secret % value === 0) || 5;
+    return gameState.secret % divisor === 0
+      ? t("game.divisible", { value: divisor })
+      : t("game.notDivisible", { value: divisor });
+  }
+
+  if (gameState.attempts === 2) {
+    return `${t("game.digitSum", { sum: digitSum(gameState.secret) })} ${
+      distance <= 10 ? t("game.near") : t("game.far")
+    }`;
+  }
+
+  return distance <= 10 ? t("game.near") : t("game.far");
+}
+
+function setGameMessage(key, values = {}) {
+  gameState.lastMessageKey = key;
+  gameState.lastMessageValues = values;
+  document.querySelector(".game-message").textContent = t(key, values);
+}
+
+function updateGameText() {
+  const message = document.querySelector(".game-message");
+  if (!message) return;
+
+  const values =
+    gameState.lastMessageKey === "game.start"
+      ? { hint: parityHint() }
+      : gameState.lastMessageValues;
+  message.textContent = t(gameState.lastMessageKey, values);
+  document.querySelector("#game-score").textContent = `${gameState.score} pts`;
+}
+
+function updateRangeTrack() {
+  const fill = document.querySelector(".range-fill");
+  const left = ((gameState.min - 1) / 99) * 100;
+  const right = ((100 - gameState.max) / 99) * 100;
+  fill.style.left = `${Math.min(100, Math.max(0, left))}%`;
+  fill.style.right = `${Math.min(100, Math.max(0, right))}%`;
+}
+
+function updateGameUi() {
+  document.querySelector("#game-range").textContent = `${gameState.min} - ${gameState.max}`;
+  document.querySelector("#game-score").textContent = `${gameState.score} pts`;
+  document.querySelectorAll(".game-lives span").forEach((heart, index) => {
+    heart.classList.toggle("is-spent", index < gameState.attempts);
+  });
+  document.querySelector(".guess-form button").disabled = gameState.isOver;
+  updateRangeTrack();
+}
+
+function addHintLog(text) {
+  const item = document.createElement("li");
+  item.textContent = text;
+  document.querySelector(".hint-log").append(item);
+}
+
+function flashGamePanel(className) {
+  const panel = document.querySelector(".game-panel");
+  panel.classList.remove("is-correct", "is-wrong");
+  window.requestAnimationFrame(() => {
+    panel.classList.add(className);
+    window.setTimeout(() => panel.classList.remove(className), 540);
+  });
+}
+
+function resetGame() {
+  gameState.secret = Math.floor(Math.random() * 100) + 1;
+  gameState.min = 1;
+  gameState.max = 100;
+  gameState.attempts = 0;
+  gameState.score = 0;
+  gameState.isOver = false;
+  gameState.lastMessageKey = "game.start";
+  gameState.lastMessageValues = {};
+  document.querySelector(".guess-form").reset();
+  document.querySelector(".hint-log").replaceChildren();
+  setGameMessage("game.start", { hint: parityHint() });
+  updateGameUi();
+}
+
+document.querySelector(".guess-form").addEventListener("submit", (event) => {
+  event.preventDefault();
+  if (gameState.isOver) return;
+
+  const input = event.currentTarget.elements.guess;
+  const guess = Number(input.value);
+  if (!Number.isInteger(guess) || guess < gameState.min || guess > gameState.max) {
+    setGameMessage("game.invalid", { min: gameState.min, max: gameState.max });
+    flashGamePanel("is-wrong");
+    return;
+  }
+
+  gameState.attempts += 1;
+
+  if (guess === gameState.secret) {
+    gameState.score = [100, 70, 45][gameState.attempts - 1] || 45;
+    gameState.isOver = true;
+    setGameMessage("game.correct", {
+      number: gameState.secret,
+      score: gameState.score,
+    });
+    addHintLog(t("game.correct", { number: gameState.secret, score: gameState.score }));
+    flashGamePanel("is-correct");
+    updateGameUi();
+    return;
+  }
+
+  if (guess < gameState.secret) {
+    gameState.min = Math.max(gameState.min, guess + 1);
+  } else {
+    gameState.max = Math.min(gameState.max, guess - 1);
+  }
+
+  const hint = nextNumberHint(guess);
+  const messageKey = guess < gameState.secret ? "game.tooLow" : "game.tooHigh";
+  const values = {
+    attempt: gameState.attempts,
+    guess,
+    min: gameState.min,
+    max: gameState.max,
+    hint,
+  };
+
+  if (gameState.attempts >= gameState.maxAttempts) {
+    gameState.isOver = true;
+    setGameMessage("game.lost", { number: gameState.secret });
+    addHintLog(t(messageKey, values));
+    addHintLog(t("game.lost", { number: gameState.secret }));
+  } else {
+    setGameMessage(messageKey, values);
+    addHintLog(t(messageKey, values));
+  }
+
+  input.value = "";
+  input.focus();
+  flashGamePanel("is-wrong");
+  updateGameUi();
+});
+
+document.querySelector(".reset-game").addEventListener("click", resetGame);
+
 function renderBriefPreview(brief) {
   const preview = document.querySelector(".brief-preview");
   const steps = document.querySelector(".brief-steps");
@@ -442,4 +652,5 @@ reduceMotion.addEventListener?.("change", () => {
 applyLanguage(currentLanguage);
 resizeCanvas();
 setupReveal();
+resetGame();
 startCanvas();
